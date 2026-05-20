@@ -1,0 +1,54 @@
+services:
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: absence_laravel
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "8002:8000"
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    depends_on:
+      - db
+    networks:
+      - absence_network
+
+  db:
+    image: mysql:8.0
+    container_name: absence_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: absence_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    volumes:
+      - absence_db_data:/var/lib/mysql
+    networks:
+      - absence_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: absence_phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD:
+    depends_on:
+      - db
+    networks:
+      - absence_network
+
+volumes:
+  absence_db_data:
+
+networks:
+  absence_network:
+    driver: bridge
