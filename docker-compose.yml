@@ -45,6 +45,17 @@ services:
       - db
     networks:
       - absence_network
+  face-service:
+    build:
+      context: ./face-service
+      dockerfile: Dockerfile
+    container_name: absence_face_service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./face-service:/app
+    networks:
+      - absence_network  
 
 volumes:
   absence_db_data:

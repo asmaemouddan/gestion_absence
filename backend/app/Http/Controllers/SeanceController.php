@@ -2,64 +2,109 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classe;
+use App\Models\Module;
+use App\Models\Professeur;
 use App\Models\Seance;
 use Illuminate\Http\Request;
 
 class SeanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $seances = Seance::with('classe', 'professeur.user', 'module')
+            ->latest()
+            ->paginate(10);
+
+        return view('seances.index', compact('seances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $classes = Classe::all();
+        $professeurs = Professeur::with('user')->get();
+        $modules = Module::all();
+
+        return view('seances.create', compact('classes', 'professeurs', 'modules'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'classe_id' => 'required|exists:classes,id',
+            'professeur_id' => 'required|exists:professeurs,id',
+            'module_id' => 'required|exists:modules,id',
+            'date' => 'required|date',
+            'heure_debut' => 'required',
+            'heure_fin' => 'required|after:heure_debut',
+        ]);
+
+        Seance::create([
+            'classe_id' => $request->classe_id,
+            'professeur_id' => $request->professeur_id,
+            'module_id' => $request->module_id,
+            'date' => $request->date,
+            'heure_debut' => $request->heure_debut,
+            'heure_fin' => $request->heure_fin,
+        ]);
+
+        return redirect()
+            ->route('seances.index')
+            ->with('success', 'Séance ajoutée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Seance $seance)
     {
-        //
+        $seance->load(
+            'classe',
+            'professeur.user',
+            'module',
+            'presences.etudiant.user'
+        );
+
+        return view('seances.show', compact('seance'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Seance $seance)
     {
-        //
+        $classes = Classe::all();
+        $professeurs = Professeur::with('user')->get();
+        $modules = Module::all();
+
+        return view('seances.edit', compact('seance', 'classes', 'professeurs', 'modules'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Seance $seance)
     {
-        //
+        $request->validate([
+            'classe_id' => 'required|exists:classes,id',
+            'professeur_id' => 'required|exists:professeurs,id',
+            'module_id' => 'required|exists:modules,id',
+            'date' => 'required|date',
+            'heure_debut' => 'required',
+            'heure_fin' => 'required|after:heure_debut',
+        ]);
+
+        $seance->update([
+            'classe_id' => $request->classe_id,
+            'professeur_id' => $request->professeur_id,
+            'module_id' => $request->module_id,
+            'date' => $request->date,
+            'heure_debut' => $request->heure_debut,
+            'heure_fin' => $request->heure_fin,
+        ]);
+
+        return redirect()
+            ->route('seances.index')
+            ->with('success', 'Séance modifiée avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Seance $seance)
     {
-        //
+        $seance->delete();
+
+        return redirect()
+            ->route('seances.index')
+            ->with('success', 'Séance supprimée avec succès.');
     }
 }
