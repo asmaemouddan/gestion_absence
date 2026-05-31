@@ -1,0 +1,460 @@
+:root {
+    --sp-green: #007f68;
+    --sp-green-dark: #005746;
+    --sp-green-soft: #e9f8f4;
+    --sp-bg: #f6faf9;
+    --sp-card: #ffffff;
+    --sp-text: #14302b;
+    --sp-muted: #7b8f8a;
+    --sp-border: #e3efec;
+    --sp-red: #ff5b6e;
+    --sp-orange: #ffb020;
+    --sp-blue: #3b82f6;
+    --sp-shadow: 0 18px 45px rgba(15, 48, 43, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--sp-bg);
+    color: var(--sp-text);
+    font-family: "Nunito", system-ui, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.sp-wrapper {
+    min-height: 100vh;
+    display: flex;
+}
+
+.sp-sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #006653 0%, #004739 100%);
+    color: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 22px 18px;
+    box-shadow: 12px 0 35px rgba(0, 80, 65, 0.16);
+    z-index: 100;
+}
+
+.sp-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 26px;
+}
+
+.sp-logo-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.14);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+.sp-logo-title {
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.sp-logo-subtitle {
+    font-size: 11px;
+    opacity: .8;
+}
+
+.sp-user-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.16);
+    padding: 12px;
+    border-radius: 18px;
+    margin-bottom: 22px;
+}
+
+.sp-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--sp-green);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.sp-user-name {
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.sp-user-role {
+    font-size: 12px;
+    opacity: .82;
+}
+
+.sp-menu-label {
+    font-size: 11px;
+    font-weight: 900;
+    opacity: .65;
+    margin: 18px 8px 10px;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+}
+
+.sp-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,.88);
+    padding: 12px 13px;
+    border-radius: 14px;
+    margin-bottom: 7px;
+    font-weight: 800;
+    font-size: 14px;
+    transition: .2s ease;
+}
+
+.sp-nav-link i {
+    font-size: 17px;
+}
+
+.sp-nav-link:hover,
+.sp-nav-link.active {
+    color: #fff;
+    background: rgba(255,255,255,.16);
+}
+
+.sp-logout {
+    position: absolute;
+    bottom: 20px;
+    left: 18px;
+    right: 18px;
+}
+
+.sp-main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+}
+
+.sp-topbar {
+    height: 74px;
+    background: rgba(255,255,255,.90);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--sp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 34px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.sp-page {
+    padding: 30px 34px;
+}
+
+.sp-title {
+    font-weight: 900;
+    font-size: 27px;
+    margin: 0;
+}
+
+.sp-subtitle {
+    color: var(--sp-muted);
+    margin: 4px 0 0;
+}
+
+.sp-card {
+    background: var(--sp-card);
+    border: 1px solid var(--sp-border);
+    border-radius: 22px;
+    box-shadow: var(--sp-shadow);
+    padding: 22px;
+}
+
+.sp-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 116px;
+}
+
+.sp-stat-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+}
+
+.sp-icon-green {
+    background: #dff8ef;
+    color: var(--sp-green);
+}
+
+.sp-icon-blue {
+    background: #e5efff;
+    color: var(--sp-blue);
+}
+
+.sp-icon-orange {
+    background: #fff3d8;
+    color: var(--sp-orange);
+}
+
+.sp-icon-red {
+    background: #ffe6eb;
+    color: var(--sp-red);
+}
+
+.sp-stat-label {
+    color: var(--sp-muted);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.sp-stat-number {
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+    margin: 6px 0;
+}
+
+.sp-stat-note {
+    color: var(--sp-green);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.sp-btn {
+    border: none;
+    background: var(--sp-green);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 14px;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sp-btn:hover {
+    background: var(--sp-green-dark);
+    color: white;
+}
+
+.sp-btn-light {
+    border: 1px solid var(--sp-border);
+    background: #fff;
+    color: var(--sp-text);
+    padding: 10px 18px;
+    border-radius: 14px;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sp-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    border: 1px solid var(--sp-border);
+    background: #fff;
+    display: inline-grid;
+    place-items: center;
+    color: var(--sp-text);
+}
+
+.sp-action:hover {
+    background: var(--sp-green-soft);
+    color: var(--sp-green);
+}
+
+.sp-table {
+    width: 100%;
+    margin: 0;
+    color: var(--sp-text);
+}
+
+.sp-table thead th {
+    font-size: 13px;
+    color: var(--sp-muted);
+    font-weight: 900;
+    border-bottom: 1px solid var(--sp-border);
+    padding: 14px 12px;
+    white-space: nowrap;
+}
+
+.sp-table tbody td {
+    border-bottom: 1px solid var(--sp-border);
+    padding: 14px 12px;
+    vertical-align: middle;
+}
+
+.sp-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.sp-table tbody tr:hover {
+    background: #f7fbfa;
+}
+
+.sp-badge {
+    padding: 7px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sp-badge-success {
+    background: #dcfce7;
+    color: #14804a;
+}
+
+.sp-badge-danger {
+    background: #ffe4e9;
+    color: #d92d45;
+}
+
+.sp-badge-warning {
+    background: #fff2cc;
+    color: #ad7300;
+}
+
+.sp-badge-info {
+    background: #e5efff;
+    color: #2563eb;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid var(--sp-border) !important;
+    border-radius: 14px !important;
+    padding: 11px 14px !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 4px rgba(0,127,104,.12) !important;
+    border-color: var(--sp-green) !important;
+}
+
+.form-label {
+    font-weight: 900;
+    color: var(--sp-text);
+}
+
+.alert {
+    border: none;
+    border-radius: 16px;
+    font-weight: 800;
+}
+
+.sp-login-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    background:
+        radial-gradient(circle at top left, rgba(0,127,104,.13), transparent 34%),
+        #f6faf9;
+}
+
+.sp-login-left {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sp-login-title {
+    font-size: 46px;
+    font-weight: 900;
+    color: var(--sp-green-dark);
+}
+
+.sp-login-card {
+    max-width: 430px;
+    width: 100%;
+    margin: auto;
+    background: #fff;
+    border: 1px solid var(--sp-border);
+    border-radius: 28px;
+    padding: 34px;
+    box-shadow: var(--sp-shadow);
+}
+
+.sp-empty {
+    padding: 38px 20px;
+    text-align: center;
+    color: var(--sp-muted);
+}
+
+.sp-empty i {
+    font-size: 42px;
+    color: var(--sp-green);
+}
+
+@media (max-width: 992px) {
+    .sp-wrapper {
+        display: block;
+    }
+
+    .sp-sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .sp-main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sp-logout {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin-top: 20px;
+    }
+
+    .sp-topbar {
+        height: auto;
+        padding: 18px;
+        display: block;
+    }
+
+    .sp-page {
+        padding: 20px;
+    }
+
+    .sp-login-page {
+        grid-template-columns: 1fr;
+    }
+
+    .sp-login-left {
+        padding: 35px 22px;
+    }
+}
