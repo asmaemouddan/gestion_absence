@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Etudiant extends Model
 {
-    /** @use HasFactory<\Database\Factories\EtudiantFactory> */
-    use HasFactory,SoftDeletes;
-    
-     protected $fillable = [
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
         'user_id',
         'classe_id',
-        'image_visage',
+        'image',
     ];
 
     public function user()

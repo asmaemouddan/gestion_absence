@@ -8,7 +8,10 @@
     <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center gap-3">
             @if($etudiant->image && file_exists(public_path('storage/' . $etudiant->image)))
-                <img src="{{ asset('storage/' . $etudiant->image) }}" width="60" height="60" class="rounded-circle object-fit-cover">
+                <img src="{{ asset('storage/' . $etudiant->image) }}"
+                     width="60"
+                     height="60"
+                     class="rounded-circle object-fit-cover">
             @else
                 <div class="sp-avatar" style="width:60px;height:60px;">
                     {{ strtoupper(substr($etudiant->user->name ?? 'E', 0, 1)) }}
@@ -22,11 +25,6 @@
         </div>
 
         <div class="d-flex gap-2">
-            <a href="{{ route('etudiants.edit', $etudiant) }}" class="sp-btn">
-                <i class="bi bi-pencil"></i>
-                Modifier
-            </a>
-
             <a href="{{ route('etudiants.index') }}" class="sp-btn-light">
                 <i class="bi bi-arrow-left"></i>
                 Retour
@@ -39,6 +37,11 @@
     <div class="col-lg-4">
         <div class="sp-card h-100">
             <h5 class="fw-bold mb-4">Informations</h5>
+
+            <div class="mb-3">
+                <div class="text-muted fw-bold small">Nom complet</div>
+                <div>{{ $etudiant->user->name ?? '-' }}</div>
+            </div>
 
             <div class="mb-3">
                 <div class="text-muted fw-bold small">Email</div>
@@ -83,8 +86,10 @@
                                         <span class="sp-badge sp-badge-danger">Absent</span>
                                     @elseif($presence->status === 'retard')
                                         <span class="sp-badge sp-badge-warning">Retard</span>
-                                    @else
+                                    @elseif($presence->status === 'justifie')
                                         <span class="sp-badge sp-badge-info">Justifié</span>
+                                    @else
+                                        <span class="sp-badge sp-badge-info">{{ $presence->status }}</span>
                                     @endif
                                 </td>
                                 <td>{{ $presence->heure_scan ?? '-' }}</td>
