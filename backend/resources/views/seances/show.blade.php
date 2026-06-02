@@ -16,11 +16,6 @@
         </div>
 
         <div class="d-flex gap-2">
-            <a href="{{ route('seances.edit', $seance) }}" class="sp-btn">
-                <i class="bi bi-pencil"></i>
-                Modifier
-            </a>
-
             <a href="{{ route('seances.index') }}" class="sp-btn-light">
                 <i class="bi bi-arrow-left"></i>
                 Retour
@@ -44,9 +39,31 @@
                 <div>{{ $seance->classe->nom ?? '-' }}</div>
             </div>
 
-            <div>
+            <div class="mb-3">
                 <div class="text-muted fw-bold small">Module</div>
                 <div>{{ $seance->module->nom ?? '-' }}</div>
+            </div>
+
+            <div class="mb-3">
+                <div class="text-muted fw-bold small">Date</div>
+                <div>{{ $seance->date }}</div>
+            </div>
+
+            <div class="mb-3">
+                <div class="text-muted fw-bold small">Horaire</div>
+                <div>{{ $seance->heure_debut }} - {{ $seance->heure_fin }}</div>
+            </div>
+
+            <div class="mt-4">
+                <div class="text-muted fw-bold small mb-2">Photo de classe</div>
+
+                @if($seance->image_classe && file_exists(public_path('storage/' . $seance->image_classe)))
+                    <img src="{{ asset('storage/' . $seance->image_classe) }}"
+                         class="rounded-4 border"
+                         style="max-width:100%; height:auto;">
+                @else
+                    <span class="text-muted">Aucune photo ajoutée</span>
+                @endif
             </div>
         </div>
     </div>
@@ -75,8 +92,10 @@
                                         <span class="sp-badge sp-badge-danger">Absent</span>
                                     @elseif($presence->status === 'retard')
                                         <span class="sp-badge sp-badge-warning">Retard</span>
-                                    @else
+                                    @elseif($presence->status === 'justifie')
                                         <span class="sp-badge sp-badge-info">Justifié</span>
+                                    @else
+                                        <span class="sp-badge sp-badge-info">{{ $presence->status }}</span>
                                     @endif
                                 </td>
                                 <td>{{ $presence->heure_scan ?? '-' }}</td>

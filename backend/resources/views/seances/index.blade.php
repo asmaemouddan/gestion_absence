@@ -27,6 +27,7 @@
                     <th>Date</th>
                     <th>Heure début</th>
                     <th>Heure fin</th>
+                    <th>Photo</th>
                     <th class="text-end">Actions</th>
                 </tr>
             </thead>
@@ -39,9 +40,27 @@
                         <td>{{ $seance->date }}</td>
                         <td>{{ $seance->heure_debut }}</td>
                         <td>{{ $seance->heure_fin }}</td>
+
+                        <td>
+                            @if($seance->image_classe && file_exists(public_path('storage/' . $seance->image_classe)))
+                                <span class="sp-badge sp-badge-success">
+                                    <i class="bi bi-image"></i>
+                                    Disponible
+                                </span>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
+
                         <td class="text-end">
-                            <a href="{{ route('seances.show', $seance) }}" class="sp-action"><i class="bi bi-eye"></i></a>
-                            <a href="{{ route('seances.edit', $seance) }}" class="sp-action"><i class="bi bi-pencil"></i></a>
+                            <a href="{{ route('seances.show', $seance) }}" class="sp-action">
+                                <i class="bi bi-eye"></i>
+                            </a>
+
+                            <a href="{{ route('seances.edit', $seance) }}" class="sp-action">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
                             <form action="{{ route('seances.destroy', $seance) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
@@ -53,7 +72,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <div class="sp-empty">
                                 <i class="bi bi-calendar-event"></i>
                                 <div class="fw-bold mt-2">Aucune séance enregistrée</div>
