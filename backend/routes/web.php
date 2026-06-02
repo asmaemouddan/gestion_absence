@@ -10,6 +10,7 @@ use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\SeanceController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\JustificationController;
+use App\Http\Controllers\ScanController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -66,6 +67,8 @@ Route::middleware(['auth', 'role:professeur'])->group(function () {
     Route::get('/professeur/dashboard', function () {
         return view('dashboards.professeur');
     })->name('professeur_dashboard');
+     Route::post('/seances/{seance}/scan', [ScanController::class, 'store'])
+        ->name('seances.scan.store');
 });
 
 /*

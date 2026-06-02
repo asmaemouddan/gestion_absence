@@ -94,7 +94,6 @@
     <div class="col-lg-7">
         <div class="sp-card h-100">
             <h5 class="fw-bold mb-4">Mes séances</h5>
-
             <div class="table-responsive">
                 <table class="table sp-table">
                     <thead>
@@ -103,6 +102,7 @@
                             <th>Classe</th>
                             <th>Date</th>
                             <th>Horaire</th>
+                            <th>photos seancd</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,6 +112,13 @@
                                 <td>{{ $seance->classe->nom ?? '-' }}</td>
                                 <td>{{ $seance->date }}</td>
                                 <td>{{ $seance->heure_debut }} - {{ $seance->heure_fin }}</td>
+                                <td>
+                                     <form action="{{ route('seances.scan.store', $seance->id) }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                            <input type="file" name="image" id="image" class="form-control" accept="image/*" required >
+                                            <button type="submit" class="btn btn-primary">scanner</button>
+                                    </form>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -125,6 +132,8 @@
                         @endforelse
                     </tbody>
                 </table>
+
+
             </div>
         </div>
     </div>
