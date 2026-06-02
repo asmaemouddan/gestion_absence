@@ -70,40 +70,40 @@ class JustificationController extends Controller
         return view('justifications.edit', compact('justification', 'presences'));
     }
 
-    public function update(Request $request, Justification $justification)
-    {
-        $request->validate([
-            'motif' => 'required|string',
-            'fichier' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'status' => 'required|in:en_attente,acceptee,refusee',
+   public function update(Request $request, Justification $justification)
+{
+    $request->validate([
+        'motif' => 'required|string',
+        'status' => 'required|in:en_attente,acceptee,refusee',
+    ]);
+
+    $justification->update([
+        'motif' => $request->motif,
+        'status' => $request->status,
+    ]);
+
+    if ($request->status === 'acceptee') {
+        $justification->presence->update([
+            'status' => 'justifie',
         ]);
-
-        $data = [
-            'motif' => $request->motif,
-            'status' => $request->status,
-        ];
-
-        if ($request->hasFile('fichier')) {
-            $data['fichier'] = $request->file('fichier')->store('justifications', 'public');
-        }
-
-        $justification->update($data);
-
-        if ($request->status === 'acceptee') {
-            $justification->presence->update([
-                'status' => 'justifie',
-            ]);
-        }
-
-        if ($request->status === 'refusee') {
-            $justification->presence->update([
-                'status' => 'absent',
-            ]);
-        }
-
-        return redirect()->route('justifications.index')->with('success', 'Justification modifiée avec succès.');
     }
 
+    if ($request->status === 'refusee') {
+        $justification->presence->update([
+            'status' => 'absent',
+        ]);
+    }
+
+    if ($request->status === 'en_attente') {
+        $justification->presence->update([
+            'status' => 'absent',
+        ]);
+    }
+
+    return redirect()
+        ->route('justifications.index')
+        ->with('success', 'Justification modifiée avec succès.');
+}
     public function destroy(Justification $justification)
     {
         $justification->delete();

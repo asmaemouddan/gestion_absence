@@ -15,15 +15,19 @@
     $presencesAbsent = \App\Models\Presence::where('status', 'absent')->count();
     $justificationsAttente = \App\Models\Justification::where('status', 'en_attente')->count();
 
-    $tauxPresence = $totalPresences > 0 ? round(($presencesPresent / $totalPresences) * 100) : 0;
-
-    $dernieresSeances = \App\Models\Seance::with('classe', 'module', 'professeur.user')->latest()->take(5)->get();
+    $dernieresSeances = \App\Models\Seance::with('classe', 'module', 'professeur.user')
+        ->latest()
+        ->take(5)
+        ->get();
 
     $dernieresJustifications = \App\Models\Justification::with(
         'presence.etudiant.user',
         'presence.seance.module',
         'presence.seance.classe'
-    )->latest()->take(4)->get();
+    )
+        ->latest()
+        ->take(4)
+        ->get();
 @endphp
 
 <div class="row g-4 mb-4">
@@ -88,6 +92,7 @@
                     <h5 class="fw-bold mb-1">Résumé des présences</h5>
                     <p class="text-muted mb-0">Données calculées depuis les enregistrements de présence</p>
                 </div>
+
                 <a href="{{ route('presences.index') }}" class="sp-btn-light">
                     <i class="bi bi-eye"></i>
                     Voir les présences
@@ -98,32 +103,28 @@
                 <div class="col-md-4">
                     <div class="p-4 rounded-4" style="background:#f1fbf8;">
                         <div class="text-muted fw-bold small">Présents</div>
-                        <div class="fs-3 fw-bold" style="color:#007f68;">{{ $presencesPresent }}</div>
+                        <div class="fs-3 fw-bold" style="color:#007f68;">
+                            {{ $presencesPresent }}
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="p-4 rounded-4" style="background:#fff0f3;">
                         <div class="text-muted fw-bold small">Absents</div>
-                        <div class="fs-3 fw-bold" style="color:#d92d45;">{{ $presencesAbsent }}</div>
+                        <div class="fs-3 fw-bold" style="color:#d92d45;">
+                            {{ $presencesAbsent }}
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="p-4 rounded-4" style="background:#e5efff;">
                         <div class="text-muted fw-bold small">Total présences</div>
-                        <div class="fs-3 fw-bold" style="color:#2563eb;">{{ $totalPresences }}</div>
+                        <div class="fs-3 fw-bold" style="color:#2563eb;">
+                            {{ $totalPresences }}
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="fw-bold">Taux de présence</span>
-                    <span class="fw-bold">{{ $tauxPresence }}%</span>
-                </div>
-                <div class="progress" style="height: 12px; border-radius: 999px;">
-                    <div class="progress-bar" style="width: {{ $tauxPresence }}%; background:#007f68; border-radius:999px;"></div>
                 </div>
             </div>
         </div>
@@ -135,17 +136,26 @@
             <p class="text-muted mb-4">Structure pédagogique</p>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="fw-bold"><i class="bi bi-person-badge me-2" style="color:#007f68;"></i>Professeurs</span>
+                <span class="fw-bold">
+                    <i class="bi bi-person-badge me-2" style="color:#007f68;"></i>
+                    Professeurs
+                </span>
                 <span class="sp-badge sp-badge-success">{{ $totalProfesseurs }}</span>
             </div>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="fw-bold"><i class="bi bi-book me-2" style="color:#2563eb;"></i>Modules</span>
+                <span class="fw-bold">
+                    <i class="bi bi-book me-2" style="color:#2563eb;"></i>
+                    Modules
+                </span>
                 <span class="sp-badge sp-badge-info">{{ $totalModules }}</span>
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-bold"><i class="bi bi-building me-2" style="color:#ad7300;"></i>Classes</span>
+                <span class="fw-bold">
+                    <i class="bi bi-building me-2" style="color:#ad7300;"></i>
+                    Classes
+                </span>
                 <span class="sp-badge sp-badge-warning">{{ $totalClasses }}</span>
             </div>
         </div>
@@ -160,6 +170,7 @@
                     <h5 class="fw-bold mb-1">Dernières séances</h5>
                     <p class="text-muted mb-0">Les dernières séances enregistrées</p>
                 </div>
+
                 <a href="{{ route('seances.index') }}" class="sp-btn">
                     <i class="bi bi-calendar-event"></i>
                     Gérer
@@ -177,6 +188,7 @@
                             <th>Horaire</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @forelse ($dernieresSeances as $seance)
                             <tr>
@@ -209,6 +221,7 @@
                     <h5 class="fw-bold mb-1">Justifications</h5>
                     <p class="text-muted mb-0">Dernières demandes</p>
                 </div>
+
                 <a href="{{ route('justifications.index') }}" class="sp-btn-light">
                     Voir
                 </a>
@@ -219,9 +232,14 @@
                     <div class="sp-avatar">
                         {{ strtoupper(substr($justification->presence->etudiant->user->name ?? 'E', 0, 1)) }}
                     </div>
+
                     <div class="flex-grow-1">
-                        <div class="fw-bold">{{ $justification->presence->etudiant->user->name ?? '-' }}</div>
-                        <small class="text-muted">{{ $justification->presence->seance->module->nom ?? '-' }}</small>
+                        <div class="fw-bold">
+                            {{ $justification->presence->etudiant->user->name ?? '-' }}
+                        </div>
+                        <small class="text-muted">
+                            {{ $justification->presence->seance->module->nom ?? '-' }}
+                        </small>
                     </div>
 
                     @if ($justification->status === 'acceptee')

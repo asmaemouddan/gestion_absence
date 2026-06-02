@@ -5,7 +5,7 @@
 
 @section('admin-content')
 <div class="sp-card">
-    <form method="POST" action="{{ route('justifications.update', $justification) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('justifications.update', $justification) }}">
         @csrf
         @method('PUT')
 
@@ -22,32 +22,27 @@
                 <textarea name="motif" id="motif" rows="5"
                           class="form-control @error('motif') is-invalid @enderror"
                           required>{{ old('motif', $justification->motif) }}</textarea>
-                @error('motif') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                @error('motif')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="status" class="form-label">Statut</label>
                 <select name="status" id="status" class="form-select @error('status') is-invalid @enderror" required>
-                    <option value="en_attente" {{ old('status', $justification->status) === 'en_attente' ? 'selected' : '' }}>En attente</option>
-                    <option value="acceptee" {{ old('status', $justification->status) === 'acceptee' ? 'selected' : '' }}>Acceptée</option>
-                    <option value="refusee" {{ old('status', $justification->status) === 'refusee' ? 'selected' : '' }}>Refusée</option>
+                    <option value="en_attente" {{ old('status', $justification->status) === 'en_attente' ? 'selected' : '' }}>
+                        En attente
+                    </option>
+                    <option value="acceptee" {{ old('status', $justification->status) === 'acceptee' ? 'selected' : '' }}>
+                        Acceptée
+                    </option>
+                    <option value="refusee" {{ old('status', $justification->status) === 'refusee' ? 'selected' : '' }}>
+                        Refusée
+                    </option>
                 </select>
-                @error('status') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-
-            <div class="col-md-6">
-                <label for="fichier" class="form-label">Nouveau fichier justificatif</label>
-                <input type="file" name="fichier" id="fichier"
-                       class="form-control @error('fichier') is-invalid @enderror"
-                       accept=".pdf,image/png,image/jpeg,image/jpg">
-                @error('fichier') <div class="invalid-feedback">{{ $message }}</div> @enderror
-
-                @if($justification->fichier)
-                    <a href="{{ asset('storage/' . $justification->fichier) }}" target="_blank" class="sp-badge sp-badge-info mt-3">
-                        <i class="bi bi-paperclip"></i>
-                        Voir le fichier actuel
-                    </a>
-                @endif
+                @error('status')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
