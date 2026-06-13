@@ -87,13 +87,29 @@ Route::middleware(['auth', 'role:professeur'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:etudiant'])->group(function () {
+
     Route::get('/etudiant/dashboard', function () {
         return view('dashboards.etudiant');
     })->name('etudiant_dashboard');
-    Route::get('/etudiant/justifications', [EtudiantController::class, 'justifications'])
-    ->name('etudiant.justifications');
-});
 
+    Route::get('/etudiant/justifications', [EtudiantController::class, 'justifications'])
+        ->name('etudiant.justifications');
+
+    Route::get('/etudiant/justifications/create', [EtudiantController::class, 'createJustification'])
+        ->name('etudiant.justifications.create');
+
+    Route::post('/etudiant/justifications/store', [EtudiantController::class, 'storeJustification'])
+        ->name('etudiant.justifications.store');
+
+    Route::get('/etudiant/justifications/{justification}/edit', [EtudiantController::class, 'editJustification'])
+        ->name('etudiant.justifications.edit');
+
+    Route::put('/etudiant/justifications/{justification}', [EtudiantController::class, 'updateJustification'])
+        ->name('etudiant.justifications.update');
+
+    Route::delete('/etudiant/justifications/{justification}', [EtudiantController::class, 'destroyJustification'])
+        ->name('etudiant.justifications.destroy');
+});
 /*
 |--------------------------------------------------------------------------
 | Home
