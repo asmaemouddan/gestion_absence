@@ -103,34 +103,50 @@
                             <th>Date</th>
                             <th>Horaire</th>
                             <th>photos seancd</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @forelse($prochainesSeances as $seance)
-                            <tr>
-                                <td class="fw-bold">{{ $seance->module->nom ?? '-' }}</td>
-                                <td>{{ $seance->classe->nom ?? '-' }}</td>
-                                <td>{{ $seance->date }}</td>
-                                <td>{{ $seance->heure_debut }} - {{ $seance->heure_fin }}</td>
-                                <td>
-                                     <form action="{{ route('seances.scan.store', $seance->id) }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                            <input type="file" name="image" id="image" class="form-control" accept="image/*" required >
-                                            <button type="submit" class="btn btn-primary">scanner</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4">
-                                    <div class="sp-empty">
-                                        <i class="bi bi-calendar-x"></i>
-                                        <div class="fw-bold mt-2">Aucune séance enregistrée</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
+        <tbody>
+@forelse($prochainesSeances as $seance)
+<tr>
+    <td class="fw-bold">{{ $seance->module->nom ?? '-' }}</td>
+    <td>{{ $seance->classe->nom ?? '-' }}</td>
+    <td>{{ $seance->date }}</td>
+    <td>{{ $seance->heure_debut }} - {{ $seance->heure_fin }}</td>
+
+    <td>
+        <form action="{{ route('seances.scan.store', $seance->id) }}"
+              method="POST"
+              enctype="multipart/form-data">
+            @csrf
+
+            <input type="file"
+                   name="image"
+                   class="form-control mb-2"
+                   accept="image/*"
+                   required>
+
+            <button type="submit" class="btn btn-primary btn-sm">
+                Scanner
+            </button>
+        </form>
+    </td>
+
+    <td>
+        <a href="{{ route('professeur.seance.presences', $seance->id) }}"
+           class="btn btn-success btn-sm">
+            Voir présences
+        </a>
+    </td>
+</tr>
+@empty
+<tr>
+    <td colspan="6" class="text-center">
+        Aucune séance enregistrée
+    </td>
+</tr>
+@endforelse
+</tbody>
                 </table>
 
 

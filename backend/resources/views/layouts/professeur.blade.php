@@ -31,6 +31,12 @@
     <span>Tableau de bord</span>
 </a>
 
+<a href="{{ route('professeur.seances') }}"
+   class="sp-nav-link {{ request()->routeIs('professeur.seances') ? 'active' : '' }}">
+    <i class="bi bi-calendar-event"></i>
+    <span>Séances</span>
+</a>
+
 <a href="{{ route('professeur.presences') }}"
    class="sp-nav-link {{ request()->routeIs('professeur.presences') ? 'active' : '' }}">
     <i class="bi bi-check2-square"></i>

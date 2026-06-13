@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\Professeur;
+ use App\Models\Presence;
+ use App\Models\Seance;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -111,4 +113,53 @@ class ProfesseurController extends Controller
         return redirect()->route('professeurs.index')
             ->with('success', 'Professeur supprimé avec succès.');
     }
+  
+public function seancePresences(Seance $seance)
+{
+    $presences = Presence::with([
+        'etudiant.user'
+    ])
+    ->where('seance_id', $seance->id)
+    ->get();
+
+    return view(
+        'professeurs.seance_presences',
+        compact('seance', 'presences')
+    );
+}
+public function seances()
+{
+    $professeur = auth()->user()->professeur;
+
+    $seances = Seance::with([
+        'classe',
+        'module'
+    ])
+    ->where('professeur_id', $professeur->id)
+    ->latest()
+    ->get();
+
+    return view('professeurs.seances', compact('seances'));
+}
+public function presences()
+{
+    $professeur = auth()->user()->professeur;
+
+    $presences = Presence::with([
+        'etudiant.user',
+        'seance.module',
+        'seance.classe'
+    ])
+    ->whereHas('seance', function ($query) use ($professeur) {
+        $query->where('professeur_id', $professeur->id);
+    })
+    ->get();
+
+    return view('professeurs.presences', compact('presences'));
+}
+
+
+
+
+
 }

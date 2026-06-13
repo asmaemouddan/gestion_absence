@@ -64,13 +64,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:professeur'])->group(function () {
+
     Route::get('/professeur/dashboard', function () {
         return view('dashboards.professeur');
     })->name('professeur_dashboard');
-     Route::post('/seances/{seance}/scan', [ScanController::class, 'store'])
+
+    Route::get('/professeur/seances', [ProfesseurController::class, 'seances'])
+        ->name('professeur.seances');
+
+    Route::get('/professeur/presences', [ProfesseurController::class, 'presences'])
+        ->name('professeur.presences');
+
+    Route::get('/professeur/seances/{seance}/presences', [ProfesseurController::class, 'seancePresences'])
+        ->name('professeur.seance.presences');
+
+    Route::post('/seances/{seance}/scan', [ScanController::class, 'store'])
         ->name('seances.scan.store');
 });
-
 /*
 |--------------------------------------------------------------------------
 | Etudiant Routes
@@ -80,6 +90,8 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
     Route::get('/etudiant/dashboard', function () {
         return view('dashboards.etudiant');
     })->name('etudiant_dashboard');
+    Route::get('/etudiant/justifications', [EtudiantController::class, 'justifications'])
+    ->name('etudiant.justifications');
 });
 
 /*

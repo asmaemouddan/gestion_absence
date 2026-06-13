@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\Etudiant;
+use App\Models\Justification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -109,4 +110,19 @@ class EtudiantController extends Controller
 
         return redirect()->route('etudiants.index')->with('success', 'Étudiant supprimé avec succès.');
     }
+
+public function justifications()
+{
+    $etudiant = auth()->user()->etudiant;
+
+    $justifications = Justification::with(
+        'presence.seance.module'
+    )
+    ->whereHas('presence', function ($query) use ($etudiant) {
+        $query->where('etudiant_id', $etudiant->id);
+    })
+    ->get();
+
+    return view('etudiants.justifications', compact('justifications'));
+}
 }

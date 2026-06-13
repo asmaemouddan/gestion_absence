@@ -30,6 +30,11 @@
             <span>Tableau de bord</span>
         </a>
 
+<a href="{{ route('etudiant.justifications') }}"
+   class="sp-nav-link {{ request()->routeIs('etudiant.justifications') ? 'active' : '' }}">
+    <i class="bi bi-file-earmark-text"></i>
+    <span>Justifications</span>
+</a>
         <div class="sp-logout">
             <a href="{{ route('logout') }}" class="sp-nav-link"
                onclick="event.preventDefault(); document.getElementById('logout-form-etudiant').submit();">
