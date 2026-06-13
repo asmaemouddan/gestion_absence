@@ -15,6 +15,33 @@
     $totalModules = $modules->count();
     $totalSeances = $seances->count();
     $prochainesSeances = $seances->sortByDesc('date')->take(5);
+
+
+    $presencesPresent = \App\Models\Presence::where('status', 'present')
+    ->whereHas('seance', function ($q) use ($professeur) {
+        $q->where('professeur_id', $professeur->id);
+    })
+    ->count();
+
+$presencesAbsent = \App\Models\Presence::where('status', 'absent')
+    ->whereHas('seance', function ($q) use ($professeur) {
+        $q->where('professeur_id', $professeur->id);
+    })
+    ->count();
+
+$totalPresences = $presencesPresent + $presencesAbsent;
+
+$dernieresPresences = \App\Models\Presence::with(
+    'etudiant.user',
+    'seance.module',
+    'seance.classe'
+)
+->whereHas('seance', function ($q) use ($professeur) {
+    $q->where('professeur_id', $professeur->id);
+})
+->latest()
+->take(10)
+->get();
 @endphp
 
 <div class="row g-4 mb-4">
@@ -137,5 +164,104 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="row g-4 mt-2">
+
+    <div class="col-lg-4">
+        <div class="sp-card h-100">
+            <h5 class="fw-bold mb-4">Résumé des présences</h5>
+
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <div class="p-3 rounded-4" style="background:#f1fbf8;">
+                        <div class="text-muted fw-bold small">Présents</div>
+                        <div class="fs-3 fw-bold" style="color:#007f68;">
+                            {{ $presencesPresent }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="p-3 rounded-4" style="background:#fff0f3;">
+                        <div class="text-muted fw-bold small">Absents</div>
+                        <div class="fs-3 fw-bold" style="color:#d92d45;">
+                            {{ $presencesAbsent }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="p-3 rounded-4" style="background:#e5efff;">
+                        <div class="text-muted fw-bold small">Total</div>
+                        <div class="fs-3 fw-bold" style="color:#2563eb;">
+                            {{ $totalPresences }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="sp-card">
+            <h5 class="fw-bold mb-4">Présences des étudiants</h5>
+
+            <div class="table-responsive">
+                <table class="table sp-table">
+                    <thead>
+                        <tr>
+                            <th>Étudiant</th>
+                            <th>Module</th>
+                            <th>Classe</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @forelse($dernieresPresences as $presence)
+                            <tr>
+                                <td>
+                                    {{ $presence->etudiant->user->name ?? '-' }}
+                                </td>
+
+                                <td>
+                                    {{ $presence->seance->module->nom ?? '-' }}
+                                </td>
+
+                                <td>
+                                    {{ $presence->seance->classe->nom ?? '-' }}
+                                </td>
+
+                                <td>
+                                    @if($presence->status == 'present')
+                                        <span class="sp-badge sp-badge-success">
+                                            Présent
+                                        </span>
+                                    @else
+                                        <span class="sp-badge sp-badge-danger">
+                                            Absent
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4">
+                                    <div class="sp-empty">
+                                        Aucune présence enregistrée
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection

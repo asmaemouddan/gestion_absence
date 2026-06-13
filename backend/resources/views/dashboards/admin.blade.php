@@ -131,34 +131,47 @@
     </div>
 
     <div class="col-lg-4">
-        <div class="sp-card h-100">
-            <h5 class="fw-bold mb-1">Organisation</h5>
-            <p class="text-muted mb-4">Structure pédagogique</p>
+    <div class="row g-3">
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="fw-bold">
-                    <i class="bi bi-person-badge me-2" style="color:#007f68;"></i>
-                    Professeurs
-                </span>
-                <span class="sp-badge sp-badge-success">{{ $totalProfesseurs }}</span>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="fw-bold">
-                    <i class="bi bi-book me-2" style="color:#2563eb;"></i>
-                    Modules
-                </span>
-                <span class="sp-badge sp-badge-info">{{ $totalModules }}</span>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-bold">
-                    <i class="bi bi-building me-2" style="color:#ad7300;"></i>
-                    Classes
-                </span>
-                <span class="sp-badge sp-badge-warning">{{ $totalClasses }}</span>
+        <div class="col-12">
+            <div class="sp-card sp-stat-card">
+                <div class="sp-stat-icon sp-icon-green">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <div>
+                    <div class="sp-stat-label">Professeurs</div>
+                    <div class="sp-stat-number">{{ $totalProfesseurs }}</div>
+                    <div class="sp-stat-note">Professeurs enregistrés</div>
+                </div>
             </div>
         </div>
+
+        <div class="col-12">
+            <div class="sp-card sp-stat-card">
+                <div class="sp-stat-icon sp-icon-blue">
+                    <i class="bi bi-book"></i>
+                </div>
+                <div>
+                    <div class="sp-stat-label">Modules</div>
+                    <div class="sp-stat-number">{{ $totalModules }}</div>
+                    <div class="sp-stat-note">Modules disponibles</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="sp-card sp-stat-card">
+                <div class="sp-stat-icon sp-icon-red">
+                    <i class="bi bi-check2-square"></i>
+                </div>
+                <div>
+                    <div class="sp-stat-label">Présences</div>
+                    <div class="sp-stat-number">{{ $totalPresences }}</div>
+                    <div class="sp-stat-note">Présences enregistrées</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
