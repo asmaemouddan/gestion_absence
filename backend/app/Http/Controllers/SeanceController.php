@@ -28,31 +28,37 @@ class SeanceController extends Controller
         return view('seances.create', compact('classes', 'professeurs', 'modules'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'classe_id' => 'required|exists:classes,id',
-            'professeur_id' => 'required|exists:professeurs,id',
-            'module_id' => 'required|exists:modules,id',
-            'date' => 'required|date',
-            'heure_debut' => 'required',
-            'heure_fin' => 'required|after:heure_debut',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'classe_id' => 'required|exists:classes,id',
+        'professeur_id' => 'required|exists:professeurs,id',
+        'module_id' => 'required|exists:modules,id',
+        'date' => 'required|date',
+        'heure_debut' => 'required',
+        'heure_fin' => 'required|after:heure_debut',
+        'photo' => 'nullable|image|mimes:jpg,png,jpeg',
+    ]);
 
-        Seance::create([
-            'classe_id' => $request->classe_id,
-            'professeur_id' => $request->professeur_id,
-            'module_id' => $request->module_id,
-            'date' => $request->date,
-            'heure_debut' => $request->heure_debut,
-            'heure_fin' => $request->heure_fin,
-        ]);
+    $photoPath = null;
 
-        return redirect()
-            ->route('seances.index')
-            ->with('success', 'Séance ajoutée avec succès.');
+    if ($request->hasFile('photo')) {
+        $photoPath = $request->file('photo')->store('seances', 'public');
     }
 
+    Seance::create([
+        'classe_id' => $request->classe_id,
+        'professeur_id' => $request->professeur_id,
+        'module_id' => $request->module_id,
+        'date' => $request->date,
+        'heure_debut' => $request->heure_debut,
+        'heure_fin' => $request->heure_fin,
+        'photo' => $photoPath,
+    ]);
+
+    return redirect()->route('seances.index')
+        ->with('success', 'Séance ajoutée avec succès.');
+}
     public function show(Seance $seance)
     {
         $seance->load(

@@ -42,15 +42,12 @@
                         <td>{{ $seance->heure_fin }}</td>
 
                         <td>
-                            @if($seance->image_classe && file_exists(public_path('storage/' . $seance->image_classe)))
-                                <span class="sp-badge sp-badge-success">
-                                    <i class="bi bi-image"></i>
-                                    Disponible
-                                </span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
+                                        @if($seance->photo)
+                <img src="{{ asset('storage/' . $seance->photo) }}" width="60" height="60" style="object-fit:cover;">
+            @else
+                <span class="text-muted">-</span>
+            @endif
+                                    </td>
 
                         <td class="text-end">
                             <a href="{{ route('seances.show', $seance) }}" class="sp-action">

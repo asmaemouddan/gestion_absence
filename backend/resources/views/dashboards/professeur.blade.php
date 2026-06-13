@@ -15,33 +15,6 @@
     $totalModules = $modules->count();
     $totalSeances = $seances->count();
     $prochainesSeances = $seances->sortByDesc('date')->take(5);
-
-
-    $presencesPresent = \App\Models\Presence::where('status', 'present')
-    ->whereHas('seance', function ($q) use ($professeur) {
-        $q->where('professeur_id', $professeur->id);
-    })
-    ->count();
-
-$presencesAbsent = \App\Models\Presence::where('status', 'absent')
-    ->whereHas('seance', function ($q) use ($professeur) {
-        $q->where('professeur_id', $professeur->id);
-    })
-    ->count();
-
-$totalPresences = $presencesPresent + $presencesAbsent;
-
-$dernieresPresences = \App\Models\Presence::with(
-    'etudiant.user',
-    'seance.module',
-    'seance.classe'
-)
-->where('status', 'present')
-->whereHas('seance', function ($q) use ($professeur) {
-    $q->where('professeur_id', $professeur->id);
-})
-->latest()
-->get();
 @endphp
 
 <div class="row g-4 mb-4">
@@ -166,54 +139,6 @@ $dernieresPresences = \App\Models\Presence::with(
     </div>
 </div>
 
-
-    <div class="col-lg-8">
-        <div class="sp-card">
-            <h5 class="fw-bold mb-4">Présences des étudiants</h5>
-
-            <div class="table-responsive">
-                <table class="table sp-table">
-                    <thead>
-                        <tr>
-                            <th>Étudiant</th>
-                            <th>Module</th>
-                            <th>Classe</th>
-                           
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @forelse($dernieresPresences as $presence)
-                            <tr>
-                                <td>
-                                    {{ $presence->etudiant->user->name ?? '-' }}
-                                </td>
-
-                                <td>
-                                    {{ $presence->seance->module->nom ?? '-' }}
-                                </td>
-
-                                <td>
-                                    {{ $presence->seance->classe->nom ?? '-' }}
-                                </td>
-
-                            
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4">
-                                    <div class="sp-empty">
-                                        Aucune présence enregistrée
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-    </div>
 
 </div>
 @endsection

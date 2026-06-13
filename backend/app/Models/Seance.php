@@ -10,14 +10,15 @@ class Seance extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'classe_id',
-        'professeur_id',
-        'module_id',
-        'date',
-        'heure_debut',
-        'heure_fin',
-    ];
+   protected $fillable = [
+    'classe_id',
+    'professeur_id',
+    'module_id',
+    'date',
+    'heure_debut',
+    'heure_fin',
+    'photo',
+];
 
     public function classe()
     {

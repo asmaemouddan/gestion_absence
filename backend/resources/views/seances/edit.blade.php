@@ -5,7 +5,7 @@
 
 @section('admin-content')
 <div class="sp-card">
-    <form method="POST" action="{{ route('seances.update', $seance) }}">
+    <form method="POST" action="{{ route('seances.update', $seance) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -71,6 +71,31 @@
             </div>
         </div>
 
+        <div class="col-md-4">
+    <label for="photo" class="form-label">Photo</label>
+    <input type="file" name="photo" id="photo"
+           class="form-control @error('photo') is-invalid @enderror">
+
+    @error('photo')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+
+<div class="col-md-4">
+    <label class="form-label">Photo actuelle</label>
+
+    @if($seance->photo)
+        <div>
+            <img src="{{ asset('storage/'.$seance->photo) }}"
+                 width="80"
+                 height="80"
+                 style="object-fit:cover; border-radius:8px;">
+        </div>
+    @else
+        <span class="text-muted">Aucune photo</span>
+    @endif
+</div>
         <div class="d-flex gap-2 mt-4">
             <button type="submit" class="sp-btn">
                 <i class="bi bi-check2-circle"></i>

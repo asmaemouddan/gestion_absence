@@ -23,12 +23,19 @@
             </div>
         </div>
 
-        <div class="sp-menu-label">Menu</div>
+      <div class="sp-menu-label">Menu</div>
 
-        <a href="{{ route('professeur_dashboard') }}" class="sp-nav-link {{ request()->routeIs('professeur_dashboard') ? 'active' : '' }}">
-            <i class="bi bi-grid-1x2"></i>
-            <span>Tableau de bord</span>
-        </a>
+<a href="{{ route('professeur_dashboard') }}"
+   class="sp-nav-link {{ request()->routeIs('professeur_dashboard') ? 'active' : '' }}">
+    <i class="bi bi-grid-1x2"></i>
+    <span>Tableau de bord</span>
+</a>
+
+<a href="{{ route('professeur.presences') }}"
+   class="sp-nav-link {{ request()->routeIs('professeur.presences') ? 'active' : '' }}">
+    <i class="bi bi-check2-square"></i>
+    <span>Présences</span>
+</a>
 
         <div class="sp-logout">
             <a href="{{ route('logout') }}" class="sp-nav-link"
