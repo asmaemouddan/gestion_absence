@@ -36,11 +36,11 @@ $dernieresPresences = \App\Models\Presence::with(
     'seance.module',
     'seance.classe'
 )
+->where('status', 'present')
 ->whereHas('seance', function ($q) use ($professeur) {
     $q->where('professeur_id', $professeur->id);
 })
 ->latest()
-->take(10)
 ->get();
 @endphp
 
@@ -166,44 +166,6 @@ $dernieresPresences = \App\Models\Presence::with(
     </div>
 </div>
 
-<div class="row g-4 mt-2">
-
-    <div class="col-lg-4">
-        <div class="sp-card h-100">
-            <h5 class="fw-bold mb-4">Résumé des présences</h5>
-
-            <div class="row g-3">
-
-                <div class="col-12">
-                    <div class="p-3 rounded-4" style="background:#f1fbf8;">
-                        <div class="text-muted fw-bold small">Présents</div>
-                        <div class="fs-3 fw-bold" style="color:#007f68;">
-                            {{ $presencesPresent }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="p-3 rounded-4" style="background:#fff0f3;">
-                        <div class="text-muted fw-bold small">Absents</div>
-                        <div class="fs-3 fw-bold" style="color:#d92d45;">
-                            {{ $presencesAbsent }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="p-3 rounded-4" style="background:#e5efff;">
-                        <div class="text-muted fw-bold small">Total</div>
-                        <div class="fs-3 fw-bold" style="color:#2563eb;">
-                            {{ $totalPresences }}
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
 
     <div class="col-lg-8">
         <div class="sp-card">
@@ -216,7 +178,7 @@ $dernieresPresences = \App\Models\Presence::with(
                             <th>Étudiant</th>
                             <th>Module</th>
                             <th>Classe</th>
-                            <th>Statut</th>
+                           
                         </tr>
                     </thead>
 
@@ -235,17 +197,7 @@ $dernieresPresences = \App\Models\Presence::with(
                                     {{ $presence->seance->classe->nom ?? '-' }}
                                 </td>
 
-                                <td>
-                                    @if($presence->status == 'present')
-                                        <span class="sp-badge sp-badge-success">
-                                            Présent
-                                        </span>
-                                    @else
-                                        <span class="sp-badge sp-badge-danger">
-                                            Absent
-                                        </span>
-                                    @endif
-                                </td>
+                            
                             </tr>
                         @empty
                             <tr>
