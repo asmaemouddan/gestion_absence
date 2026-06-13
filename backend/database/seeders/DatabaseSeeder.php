@@ -33,14 +33,14 @@ class DatabaseSeeder extends Seeder
 
         User::factory(5)->create();
 
-        $this->call([
-            ClasseSeeder::class,
-            ModuleSeeder::class,
-            ProfesseurSeeder::class,
-            EtudiantSeeder::class,
-            SeanceSeeder::class,
-            PresenceSeeder::class,
-            JustificationSeeder::class,
-        ]);
+        // $this->call([
+        //     ClasseSeeder::class,
+        //     ModuleSeeder::class,
+        //     ProfesseurSeeder::class,
+        //     EtudiantSeeder::class,
+        //     SeanceSeeder::class,
+        //     PresenceSeeder::class,
+        //     JustificationSeeder::class,
+        // ]);
     }
 }

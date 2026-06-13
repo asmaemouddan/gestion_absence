@@ -6,6 +6,7 @@ use App\Models\Classe;
 use App\Models\Etudiant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\File;
 
 class EtudiantFactory extends Factory
 {
@@ -13,6 +14,8 @@ class EtudiantFactory extends Factory
 
     public function definition(): array
     {
+         $images = File::files(storage_path('app/public/etudiants'));
+         $randomImage = collect($images)->random();
         return [
             'user_id' => User::factory()->create([
                 'role' => 'etudiant',
@@ -20,7 +23,7 @@ class EtudiantFactory extends Factory
 
             'classe_id' => Classe::inRandomOrder()->first()?->id,
 
-            'image' => 'etudiants/default.png',
+            'image' => 'etudiants/' . $randomImage->getfilename(),
         ];
     }
 }

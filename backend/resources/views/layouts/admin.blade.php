@@ -1,7 +1,9 @@
+```blade
 @extends('layouts.app')
 
 @section('content')
 <div class="sp-wrapper">
+
     <aside class="sp-sidebar">
         <div class="sp-logo">
             <div class="sp-logo-icon">
@@ -9,25 +11,12 @@
             </div>
             <div>
                 <div class="sp-logo-title">SmartPresence</div>
-                <div class="sp-logo-subtitle">Administration</div>
             </div>
         </div>
-
-        <div class="sp-user-box">
-            <div class="sp-avatar">
-                {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
-            </div>
-            <div>
-                <div class="sp-user-name">{{ Auth::user()->name ?? 'Administrateur' }}</div>
-                <div class="sp-user-role">Administrateur</div>
-            </div>
-        </div>
-
-        <div class="sp-menu-label">Menu principal</div>
 
         <a href="{{ route('admin_dashboard') }}" class="sp-nav-link {{ request()->routeIs('admin_dashboard') ? 'active' : '' }}">
             <i class="bi bi-grid-1x2"></i>
-            <span>Tableau de bord</span>
+            <span>Dashboard</span>
         </a>
 
         <a href="{{ route('etudiants.index') }}" class="sp-nav-link {{ request()->routeIs('etudiants.*') ? 'active' : '' }}">
@@ -65,7 +54,7 @@
             <span>Justifications</span>
         </a>
 
-        <div class="sp-logout">
+        <div class="sp-logout mt-auto">
             <a href="{{ route('logout') }}" class="sp-nav-link"
                onclick="event.preventDefault(); document.getElementById('logout-form-admin').submit();">
                 <i class="bi bi-box-arrow-right"></i>
@@ -80,38 +69,27 @@
 
     <main class="sp-main">
         <div class="sp-topbar">
-            <div>
-                <h1 class="sp-title">@yield('page-title', 'Tableau de bord')</h1>
-                <p class="sp-subtitle">@yield('page-subtitle', 'Gestion intelligente des présences')</p>
-            </div>
-
-            <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-                <span class="sp-badge sp-badge-info">
-                    <i class="bi bi-shield-check"></i>
-                    Admin
-                </span>
-                <div class="sp-avatar">
-                    {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
-                </div>
-            </div>
+            <h1 class="sp-title">@yield('page-title', 'Dashboard')</h1>
         </div>
 
         <div class="sp-page">
-            @if (session('success'))
-                <div class="alert alert-success mb-4">
-                    <i class="bi bi-check2-circle me-2"></i>
+
+            @if(session('success'))
+                <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
 
-            @if ($errors->any())
-                <div class="alert alert-danger mb-4">
-                    <strong>Veuillez vérifier les informations saisies.</strong>
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    Une erreur est survenue.
                 </div>
             @endif
 
             @yield('admin-content')
+
         </div>
     </main>
+
 </div>
 @endsection

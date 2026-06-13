@@ -1,5 +1,7 @@
 services:
   app:
+    environment:
+      FACE_SERVICE_URL: http://absence_face_service:8001
     build:
       context: ./backend
       dockerfile: Dockerfile
