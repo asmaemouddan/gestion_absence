@@ -158,20 +158,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-12">
-            <div class="sp-card sp-stat-card">
-                <div class="sp-stat-icon sp-icon-red">
-                    <i class="bi bi-check2-square"></i>
-                </div>
-                <div>
-                    <div class="sp-stat-label">Présences</div>
-                    <div class="sp-stat-number">{{ $totalPresences }}</div>
-                    <div class="sp-stat-note">Présences enregistrées</div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 

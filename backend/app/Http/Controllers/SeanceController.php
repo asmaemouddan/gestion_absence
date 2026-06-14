@@ -37,14 +37,8 @@ class SeanceController extends Controller
         'date' => 'required|date',
         'heure_debut' => 'required',
         'heure_fin' => 'required|after:heure_debut',
-        'photo' => 'nullable|image|mimes:jpg,png,jpeg',
+
     ]);
-
-    $photoPath = null;
-
-    if ($request->hasFile('photo')) {
-        $photoPath = $request->file('photo')->store('seances', 'public');
-    }
 
     Seance::create([
         'classe_id' => $request->classe_id,
@@ -52,8 +46,7 @@ class SeanceController extends Controller
         'module_id' => $request->module_id,
         'date' => $request->date,
         'heure_debut' => $request->heure_debut,
-        'heure_fin' => $request->heure_fin,
-        'photo' => $photoPath,
+        'heure_fin' => $request->heure_fin
     ]);
 
     return redirect()->route('seances.index')
@@ -113,4 +106,20 @@ class SeanceController extends Controller
             ->route('seances.index')
             ->with('success', 'Séance supprimée avec succès.');
     }
+
+    public function photo_seance(Request $request, $id)
+{
+    $request->validate([
+        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
+
+    $seance = Seance::findOrFail($id);
+
+    $photoPath = $request->file('image')->store('seances', 'public');
+
+    $seance->image = $photoPath;
+    $seance->save();
+
+    return redirect()->back()->with('success', 'Photo ajoutée avec succès');
+}
 }

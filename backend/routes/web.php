@@ -86,6 +86,11 @@ Route::middleware(['auth', 'role:professeur'])->group(function () {
 | Etudiant Routes
 |--------------------------------------------------------------------------
 */
+/*
+|--------------------------------------------------------------------------
+| Etudiant Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'role:etudiant'])->group(function () {
 
     Route::get('/etudiant/dashboard', function () {
@@ -95,21 +100,24 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
     Route::get('/etudiant/justifications', [EtudiantController::class, 'justifications'])
         ->name('etudiant.justifications');
 
-    Route::get('/etudiant/justifications/create', [EtudiantController::class, 'createJustification'])
+    Route::get('/etudiant/justifications/create', [JustificationController::class, 'create'])
         ->name('etudiant.justifications.create');
 
-    Route::post('/etudiant/justifications/store', [EtudiantController::class, 'storeJustification'])
+    Route::post('/etudiant/justifications/store', [JustificationController::class, 'store'])
         ->name('etudiant.justifications.store');
 
-    Route::get('/etudiant/justifications/{justification}/edit', [EtudiantController::class, 'editJustification'])
+    Route::get('/etudiant/justifications/{justification}/edit', [JustificationController::class, 'edit'])
         ->name('etudiant.justifications.edit');
 
-    Route::put('/etudiant/justifications/{justification}', [EtudiantController::class, 'updateJustification'])
+    Route::put('/etudiant/justifications/{justification}', [JustificationController::class, 'update'])
         ->name('etudiant.justifications.update');
 
-    Route::delete('/etudiant/justifications/{justification}', [EtudiantController::class, 'destroyJustification'])
+    Route::delete('/etudiant/justifications/{justification}', [JustificationController::class, 'destroy'])
         ->name('etudiant.justifications.destroy');
 });
+
+Route::post('/seances/{seance}/photo', [SeanceController::class, 'photo_seance'])
+    ->name('seances.photo');
 /*
 |--------------------------------------------------------------------------
 | Home

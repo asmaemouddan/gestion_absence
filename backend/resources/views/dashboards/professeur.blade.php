@@ -103,7 +103,7 @@
                             <th>Date</th>
                             <th>Horaire</th>
                             <th>photos seancd</th>
-                            <th>Actions</th>
+
                         </tr>
                     </thead>
         <tbody>
@@ -115,28 +115,20 @@
     <td>{{ $seance->heure_debut }} - {{ $seance->heure_fin }}</td>
 
     <td>
-        <form action="{{ route('seances.scan.store', $seance->id) }}"
+        <form action="{{ route('seances.photo', $seance->id) }}"
               method="POST"
               enctype="multipart/form-data">
             @csrf
 
-            <input type="file"
-                   name="image"
-                   class="form-control mb-2"
-                   accept="image/*"
-                   required>
+            <input type="file" name="image" class="form-control mb-2" accept="image/*" />
+            @error('image')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
 
-            <button type="submit" class="btn btn-primary btn-sm">
+            <button type="submit" class="btn btn-primary btn-sm border-rounded">
                 Scanner
             </button>
         </form>
-    </td>
-
-    <td>
-        <a href="{{ route('professeur.seance.presences', $seance->id) }}"
-           class="btn btn-success btn-sm">
-            Voir présences
-        </a>
     </td>
 </tr>
 @empty

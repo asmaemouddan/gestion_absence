@@ -54,14 +54,6 @@
                        value="{{ old('date') }}" required>
                 @error('date') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-
-            <div class="col-md-4">
-    <label for="photo" class="form-label">Photo</label>
-    <input type="file" name="photo" id="photo"
-           class="form-control @error('photo') is-invalid @enderror">
-    @error('photo') <div class="invalid-feedback">{{ $message }}</div> @enderror
-</div>
-
             <div class="col-md-4">
                 <label for="heure_debut" class="form-label">Heure début</label>
                 <input type="time" name="heure_debut" id="heure_debut" class="form-control @error('heure_debut') is-invalid @enderror"
