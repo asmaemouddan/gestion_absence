@@ -1,8 +1,6 @@
 fastapi
 uvicorn
-deepface
-opencv-python-headless
-numpy
 python-multipart
-tf-keras
-retina-face
+opencv-python
+face_recognition
+numpy
