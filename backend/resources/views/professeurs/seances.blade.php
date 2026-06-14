@@ -45,29 +45,6 @@
                                     width="120"
                                     class="img-thumbnail mb-2">
                             @endif
-
-                            <form
-                                action="{{ route('seance.photo', $seance->id) }}"
-                                method="POST"
-                                enctype="multipart/form-data">
-
-                                @csrf
-
-                                <input
-                                    type="file"
-                                    name="image"
-                                    class="form-control form-control-sm mb-2"
-                                    accept="image/*"
-                                    required>
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-success btn-sm">
-                                    Ajouter photo
-                                </button>
-
-                            </form>
-
                         </td>
 
                         <td>

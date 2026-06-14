@@ -121,6 +121,11 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
 
 Route::post('/seances/{seance}/photo', [SeanceController::class, 'photo_seance'])
     ->name('seances.photo');
+Route::get('/etudiant/justifications/{justification}', [JustificationController::class, 'show'])
+    ->name('etudiant.justifications.show');
+
+Route::get('/etudiant/justifications/{justification}', [JustificationController::class, 'show'])
+    ->name('etudiant.justifications.show');
 /*
 |--------------------------------------------------------------------------
 | Home

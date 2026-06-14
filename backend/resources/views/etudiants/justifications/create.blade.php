@@ -5,32 +5,72 @@
 
 @section('etudiant-content')
 <div class="sp-card">
-   <form method="POST" action="{{ route('etudiant.justifications.store') }}" enctype="multipart/form-data">
+    <form method="POST"
+          action="{{ route('etudiant.justifications.store') }}"
+          enctype="multipart/form-data">
         @csrf
 
         <div class="row g-4">
- @php
-    $etudiant = \App\Models\Etudiant::where('user_id', Auth::id())->first();
-@endphp
 
-<input type="hidden" name="etudiant_id" value="{{ $etudiant->id }}">
+            <div class="col-md-12">
+                <label for="presence_id" class="form-label">
+                    Absence à justifier
+                </label>
+
+                <select name="presence_id"
+                        id="presence_id"
+                        class="form-select @error('presence_id') is-invalid @enderror"
+                        required>
+
+                    <option value="">Choisir une absence</option>
+
+                    @foreach($presences as $presence)
+                        <option value="{{ $presence->id }}"
+                            {{ old('presence_id') == $presence->id ? 'selected' : '' }}>
+                            {{ $presence->seance->module->nom }}
+                            - {{ $presence->seance->date }}
+                        </option>
+                    @endforeach
+
+                </select>
+
+                @error('presence_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-12">
-                <label for="motif" class="form-label">Motif</label>
-                <textarea name="motif" id="motif" rows="5"
+                <label for="motif" class="form-label">
+                    Motif
+                </label>
+
+                <textarea name="motif"
+                          id="motif"
+                          rows="5"
                           class="form-control @error('motif') is-invalid @enderror"
                           required>{{ old('motif') }}</textarea>
-                @error('motif') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                @error('motif')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-12">
-                <label for="fichier" class="form-label">Fichier justificatif</label>
-                <input type="file" name="fichier" id="fichier"
+                <label for="fichier" class="form-label">
+                    Fichier justificatif
+                </label>
+
+                <input type="file"
+                       name="fichier"
+                       id="fichier"
                        class="form-control @error('fichier') is-invalid @enderror"
                        accept=".pdf,image/png,image/jpeg,image/jpg">
-                @error('fichier') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                @error('fichier')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
+
         </div>
 
         <div class="d-flex gap-2 mt-4">
@@ -39,7 +79,8 @@
                 Enregistrer
             </button>
 
-            <<a href="{{ route('etudiant.justifications') }}" class="sp-btn-light">
+            <a href="{{ route('etudiant.justifications') }}"
+               class="sp-btn-light">
                 <i class="bi bi-arrow-left"></i>
                 Retour
             </a>

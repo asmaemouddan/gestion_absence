@@ -71,7 +71,7 @@ class ScanController extends Controller
         }
 
         $data = $response->json();
-
+        dd($response->json());
         $absentsIds = $data['absents'] ?? [];
 
         // Enregistrer présences

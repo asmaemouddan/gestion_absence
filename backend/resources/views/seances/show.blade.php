@@ -4,6 +4,15 @@
 @section('page-subtitle', 'Informations et présences liées à la séance')
 
 @section('admin-content')
+
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
 <div class="sp-card mb-4">
     <div class="d-flex justify-content-between align-items-center">
         <div>
@@ -64,6 +73,22 @@
                 @else
                     <span class="text-muted">Aucune photo ajoutée</span>
                 @endif
+            </div>
+
+            <div class="mt-4">
+                <div class="text-muted fw-bold small mb-2">Scanner la présence</div>
+                <form action="{{ route('seances.scan.store', $seance) }}"
+                      method="POST"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="image" class="form-control mb-2" accept="image/*" required>
+                    @error('image')
+                        <div class="text-danger small mb-2">{{ $message }}</div>
+                    @enderror
+                    <button type="submit" class="sp-btn-primary w-100">
+                        <i class="bi bi-camera"></i> Lancer le scan
+                    </button>
+                </form>
             </div>
         </div>
     </div>
