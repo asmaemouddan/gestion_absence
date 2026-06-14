@@ -80,6 +80,9 @@ Route::middleware(['auth', 'role:professeur'])->group(function () {
 
     Route::post('/seances/{seance}/scan', [ScanController::class, 'store'])
         ->name('seances.scan.store');
+
+        Route::post('/seances/{id}/photo', [SeanceController::class, 'photo_seance'])
+    ->name('seance.photo');
 });
 /*
 |--------------------------------------------------------------------------

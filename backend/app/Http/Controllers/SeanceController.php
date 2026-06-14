@@ -107,7 +107,7 @@ class SeanceController extends Controller
             ->with('success', 'Séance supprimée avec succès.');
     }
 
-    public function photo_seance(Request $request, $id)
+  public function photo_seance(Request $request, $id)
 {
     $request->validate([
         'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
@@ -117,7 +117,7 @@ class SeanceController extends Controller
 
     $photoPath = $request->file('image')->store('seances', 'public');
 
-    $seance->image = $photoPath;
+    $seance->photo = $photoPath;
     $seance->save();
 
     return redirect()->back()->with('success', 'Photo ajoutée avec succès');

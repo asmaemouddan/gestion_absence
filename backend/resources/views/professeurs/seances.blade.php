@@ -17,6 +17,7 @@
                     <th>Classe</th>
                     <th>Date</th>
                     <th>Horaire</th>
+                    <th>Photo séance</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -25,12 +26,48 @@
                 @forelse($seances as $seance)
                     <tr>
                         <td>{{ $seance->module->nom ?? '-' }}</td>
+
                         <td>{{ $seance->classe->nom ?? '-' }}</td>
+
                         <td>{{ $seance->date }}</td>
+
                         <td>
                             {{ $seance->heure_debut }}
                             -
                             {{ $seance->heure_fin }}
+                        </td>
+
+                        <td style="width:250px">
+
+                            @if($seance->photo)
+                                <img
+                                    src="{{ asset('storage/' . $seance->photo) }}"
+                                    width="120"
+                                    class="img-thumbnail mb-2">
+                            @endif
+
+                            <form
+                                action="{{ route('seance.photo', $seance->id) }}"
+                                method="POST"
+                                enctype="multipart/form-data">
+
+                                @csrf
+
+                                <input
+                                    type="file"
+                                    name="image"
+                                    class="form-control form-control-sm mb-2"
+                                    accept="image/*"
+                                    required>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-success btn-sm">
+                                    Ajouter photo
+                                </button>
+
+                            </form>
+
                         </td>
 
                         <td>
@@ -42,12 +79,13 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="6" class="text-center">
                             Aucune séance trouvée
                         </td>
                     </tr>
                 @endforelse
             </tbody>
+
         </table>
     </div>
 </div>

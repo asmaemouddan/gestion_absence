@@ -19,12 +19,22 @@ class JustificationController extends Controller
         return view('justifications.index', compact('justifications'));
     }
 
-    public function create()
-    {
-        $presences = Presence::with('etudiant.user', 'seance.module', 'seance.classe')->where('status', 'absent')->get();
+   public function create()
+{
+    $presences = Presence::with(
+        'etudiant.user',
+        'seance.module',
+        'seance.classe'
+    )
+    ->where('status', 'absent')
+    ->get();
 
-        return view('justifications.create', compact('presences'));
+    if(auth()->user()->role === 'etudiant') {
+        return view('etudiants.justifications.create', compact('presences'));
     }
+
+    return view('justifications.create', compact('presences'));
+}
 
     public function store(Request $request)
     {
@@ -47,7 +57,13 @@ class JustificationController extends Controller
             'status' => 'en_attente',
         ]);
 
-        return redirect()->route('justifications.index')->with('success', 'Justification ajoutée avec succès.');
+       if(auth()->user()->role === 'etudiant'){
+    return redirect()->route('etudiant.justifications')
+        ->with('success', 'Justification ajoutée avec succès.');
+}
+
+return redirect()->route('justifications.index')
+    ->with('success', 'Justification ajoutée avec succès.');
     }
 
     public function show(Justification $justification)
