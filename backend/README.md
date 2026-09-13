@@ -1,58 +1,424 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SmartPresence
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Système Intelligent de Gestion des Présences par Reconnaissance Faciale
 
-## About Laravel
+SmartPresence est une application web destinée à automatiser la gestion des présences des étudiants grâce à la reconnaissance faciale.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+L’objectif est de faciliter le travail des enseignants et de l’administration, de réduire les erreurs de saisie manuelle et d’améliorer le suivi des présences.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🎯 Objectifs
 
-## Learning Laravel
+* Automatiser l’enregistrement des présences.
+* Identifier les étudiants à partir de leur visage.
+* Réduire les erreurs liées à la saisie manuelle.
+* Faciliter la gestion des étudiants, classes, modules et séances.
+* Permettre aux enseignants de consulter et gérer les présences.
+* Gérer les justifications d'absence.
+* Centraliser les données dans une base de données MySQL.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Technologies utilisées
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Backend
 
-## Agentic Development
+* Laravel
+* PHP
+* MySQL
+* Laravel Artisan
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Reconnaissance faciale
 
-```bash
-composer require laravel/boost --dev
+* Python
+* FastAPI
+* OpenCV
+* face_recognition
+* NumPy
+* Uvicorn
 
-php artisan boost:install
+### Frontend
+
+* Blade
+* JavaScript
+* Bootstrap
+* Sass
+* Vite
+
+### Conteneurisation
+
+* Docker
+* Docker Compose
+
+### Base de données
+
+* MySQL 8.0
+* phpMyAdmin
+
+### Gestion du code
+
+* Git
+* GitHub
+
+---
+
+## 🏗️ Architecture
+
+Le projet est organisé autour de plusieurs services Docker :
+
+```text
+                    SmartPresence
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+      Laravel          MySQL       Face Service
+        PHP             DB            Python
+          │                              │
+          │                              │
+          └──────────────┬───────────────┘
+                         │
+                         ▼
+                    Application Web
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Services Docker
 
-## Contributing
+| Service      | Technologie      |    Port |
+| ------------ | ---------------- | ------: |
+| app          | Laravel / PHP    |    8002 |
+| node         | Node.js / Vite   | interne |
+| db           | MySQL 8.0        |    3307 |
+| phpmyadmin   | phpMyAdmin       |    8080 |
+| face-service | Python / FastAPI |    8001 |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 📁 Structure du projet
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```text
+gestion_absence/
+│
+├── backend/
+│   ├── app/
+│   ├── bootstrap/
+│   ├── config/
+│   ├── database/
+│   ├── public/
+│   ├── resources/
+│   ├── routes/
+│   ├── storage/
+│   ├── tests/
+│   ├── composer.json
+│   ├── composer.lock
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   └── .env.example
+│
+├── face-service/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── docker-compose.yml
+└── README.md
+```
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 🚀 Installation
 
-## License
+## 1. Cloner le projet
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+git clone https://github.com/asmaemouddan/gestion_absence.git
+cd gestion_absence
+```
+
+---
+
+## 2. Créer le fichier `.env`
+
+Laravel utilise le fichier `.env` pour sa configuration.
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+Configurer ensuite la base de données :
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=absence_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+## 3. Construire et démarrer Docker
+
+```bash
+docker compose up -d --build
+```
+
+Vérifier les services :
+
+```bash
+docker compose ps
+```
+
+---
+
+## 4. Installer les dépendances Laravel
+
+```bash
+docker compose run --rm app composer install
+```
+
+---
+
+## 5. Générer la clé Laravel
+
+```bash
+docker compose exec app php artisan key:generate
+```
+
+---
+
+## 6. Préparer la base de données
+
+```bash
+docker compose exec app php artisan migrate
+```
+
+Si le projet utilise des données initiales :
+
+```bash
+docker compose exec app php artisan migrate --seed
+```
+
+---
+
+## 7. Installer les dépendances Frontend
+
+Le projet utilise un service Node.js indépendant pour gérer npm et Vite.
+
+```bash
+docker compose run --rm node npm ci
+```
+
+Construire les assets :
+
+```bash
+docker compose run --rm node npm run build
+```
+
+Le build génère notamment :
+
+```text
+backend/public/build/manifest.json
+```
+
+---
+
+## 8. Nettoyer le cache Laravel
+
+```bash
+docker compose exec app php artisan optimize:clear
+```
+
+---
+
+# ▶️ Lancer le projet
+
+Si les services sont arrêtés :
+
+```bash
+docker compose up -d
+```
+
+Vérifier leur état :
+
+```bash
+docker compose ps
+```
+
+---
+
+# 🌐 Accès aux services
+
+### Application Laravel
+
+```text
+http://localhost:8002
+```
+
+### Face Recognition API
+
+```text
+http://localhost:8001
+```
+
+### phpMyAdmin
+
+```text
+http://localhost:8080
+```
+
+### MySQL
+
+```text
+Host: localhost
+Port: 3307
+```
+
+À l'intérieur du réseau Docker, Laravel utilise :
+
+```text
+Host: db
+Port: 3306
+```
+
+---
+
+# 🤖 Reconnaissance faciale
+
+Le service de reconnaissance faciale est développé avec Python et FastAPI.
+
+Il permet notamment de :
+
+* traiter les images des étudiants ;
+* détecter les visages ;
+* comparer les caractéristiques faciales ;
+* identifier un étudiant ;
+* retourner le résultat au backend Laravel.
+
+Communication :
+
+```text
+Laravel
+   │
+   │ HTTP Request
+   ▼
+Face Service
+   │
+   ├── OpenCV
+   ├── face_recognition
+   └── NumPy
+```
+
+---
+
+# 🗄️ Gestion des données
+
+L'application utilise MySQL pour stocker les principales données du système :
+
+* utilisateurs ;
+* étudiants ;
+* classes ;
+* modules ;
+* professeurs ;
+* séances ;
+* présences ;
+* justifications.
+
+Les migrations Laravel permettent de créer et gérer la structure de la base de données.
+
+---
+
+# 🔧 Commandes Docker utiles
+
+### Voir les containers
+
+```bash
+docker compose ps
+```
+
+### Voir les logs
+
+```bash
+docker compose logs
+```
+
+### Logs Laravel
+
+```bash
+docker compose logs app
+```
+
+### Logs Face Service
+
+```bash
+docker compose logs face-service
+```
+
+### Logs Node
+
+```bash
+docker compose logs node
+```
+
+### Arrêter les services
+
+```bash
+docker compose down
+```
+
+### Redémarrer les services
+
+```bash
+docker compose restart
+```
+
+### Reconstruire les images
+
+```bash
+docker compose up -d --build
+```
+
+---
+
+# 🧹 Réinitialisation du cache Laravel
+
+En cas de problème après une modification de configuration :
+
+```bash
+docker compose exec app php artisan optimize:clear
+```
+
+---
+
+# 👥 Équipe du projet
+
+**Projet : SmartPresence**
+
+Système intelligent de gestion des présences par reconnaissance faciale.
+
+### Membres
+
+* Laila Belaoula
+* Asmae Mouddan
+
+### Encadrement
+
+**M. Mohamad Qassi**
+
+---
+
+# 📌 Contexte
+
+SmartPresence a été réalisé dans le cadre d'un projet de développement digital avec pour objectif d'explorer l'intégration de l'intelligence artificielle et de la reconnaissance faciale dans une application web de gestion des présences.
+
+Le projet combine le développement web, la gestion des bases de données, les services API et le traitement d'images.
+
+---
+
+# 📄 Licence
+
+Ce projet est réalisé dans un cadre académique.

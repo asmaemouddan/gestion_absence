@@ -18,6 +18,17 @@ services:
     networks:
       - absence_network
 
+  node:
+    image: node:22-bookworm-slim
+    container_name: absence_node
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+      - node_modules:/var/www/html/node_modules
+    command: sh -c "npm ci && npm run build"
+    networks:
+      - absence_network
+
   db:
     image: mysql:8.0
     container_name: absence_mysql
@@ -47,6 +58,7 @@ services:
       - db
     networks:
       - absence_network
+
   face-service:
     build:
       context: ./face-service
@@ -57,10 +69,11 @@ services:
     volumes:
       - ./face-service:/app
     networks:
-      - absence_network  
+      - absence_network
 
 volumes:
   absence_db_data:
+  node_modules:
 
 networks:
   absence_network:
